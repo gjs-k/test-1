@@ -132,7 +132,7 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git add -A
-          git commit --amend --no-edit || echo "No changes to commit"
+          git commit -m "pr build ➝ gh pages"
           git push -f origin ${{ env.gh_pages_branch }}
 
   pr_comment:
@@ -189,5 +189,5 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git add -A
-          git commit -m "Cleanup: removed folder @${{ github.event.pull_request.head.ref }} after merge" || echo "No changes to commit"
+          git commit -m "cleanup: removed folder @${{ github.event.pull_request.head.ref }} after merge" || echo "No changes to commit"
           git push origin ${{ env.gh_pages_branch }}
