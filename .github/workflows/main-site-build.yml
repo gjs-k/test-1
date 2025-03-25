@@ -1,4 +1,4 @@
-name: site-build-push
+name: main-site-build
 
 on:
   # for local PR builds esp. builds in forked repositories
@@ -66,15 +66,12 @@ jobs:
           path: __build__
 
       - name: Set up Git
-        env:
-          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
-          GIT_USER: ${{ secrets.GIT_USER }}
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
       # avoid hard-coding pages url in workflow => use github API to retrieve deployment website url (see https://stackoverflow.com/a/76354104/29917717 + https://docs.github.com/en/rest/pages/pages?apiVersion=2022-11-28#get-a-github-pages-site)
-      - name: Switch to GitHub Pages Branch
+      - name: Switch to Pages Branch
         run: |
           gh_pages_branch=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.source.branch')
           git fetch origin $gh_pages_branch
@@ -83,12 +80,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cleanup
+      - name: Drop Previous Content
         run: |
           shopt -s extglob
           rm -rf !(@*|__build__)
 
-      - name: Move Build Files
+      - name: Extract Build Content
         run: |
           if [[ -d "__build__" && "$(ls -A __build__)" ]]; then
             mv __build__/* ./
