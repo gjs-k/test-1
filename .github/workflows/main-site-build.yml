@@ -99,7 +99,7 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git add -A
-          if [[ "($(git status -s)" ]]; then
+          if [[ "$(git status -s)" ]]; then
             git commit -m "site build ➝ gh pages"
             git push -f origin ${{ env.gh_pages_branch }}
           fi
