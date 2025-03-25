@@ -87,7 +87,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cleanup
-        if: github.ref == 'refs/heads/main'
         run: |
           shopt -s extglob
           rm -rf !(@*)
@@ -95,12 +94,7 @@ jobs:
       - name: Move Build Files
         run: |
           if [[ -d "build" && "$(ls -A build)" ]]; then
-            if [[ "${{ github.event.pull_request.head.ref }}" != "refs/heads/main" ]]; then
-              mv build/* @${{ github.event.pull_request.head.ref }}/
-              cd @${{ github.event.pull_request.head.ref }}/
-            else
-              mv build/* ./
-            fi
+            mv build/* ./
             tar -xvf github-pages/artifact.tar
             rm github-pages/artifact.tar
           else
