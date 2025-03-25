@@ -100,4 +100,6 @@ jobs:
         run: |
           git add -A
           git commit -m "site build ➝ gh pages"
-          git push -f origin ${{ env.gh_pages_branch }}
+          if [[ "($(git status -s)" ]]; then
+            git push -f origin ${{ env.gh_pages_branch }}
+          fi

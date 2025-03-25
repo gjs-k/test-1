@@ -119,7 +119,9 @@ jobs:
         run: |
           git add -A
           git commit -m "pr build ➝ gh pages"
-          git push -f origin ${{ env.gh_pages_branch }}
+          if [[ "($(git status -s)" ]]; then
+            git push -f origin ${{ env.gh_pages_branch }}
+          fi
 
   pr_comment:
     name: Post Preview Link (PRs)
