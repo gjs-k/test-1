@@ -1,4 +1,4 @@
-name: PR Deploy
+name: pr-build-deploy
 
 on:
   # for local PR builds esp. builds in forked repositories
